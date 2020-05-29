@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Vending
 {
@@ -19,37 +20,39 @@ namespace Vending
         // Add a new product to the Vending Machine (For stocking machine)
         public void AddProduct(Product newProduct)
         {
-            throw new NotImplementedException();
+            _products.Add(newProduct);
         }
 
         // Remove a product from the Vending Machine (for purchasing a product)
         public void RemoveProduct(Product productToRemove)
         {
-            throw new NotImplementedException();
+            _products.Remove(productToRemove);
         }
 
         // Get all products ordered by price (lowest on top)
         public List<Product> GetAll()
         {
-            throw new NotImplementedException();
+            IEnumerable<Product> productByPrices = _products.OrderBy(product => product.Price);
+            return productByPrices.ToList();
         }
 
         // Find a product by name. Results should be ordered by name)
         public List<Product> SearchByName(string nameCriteria)
         {
-            throw new NotImplementedException();
+            return _products.Where(product => product.Name == nameCriteria).ToList();
         }
 
         // Find a product between a range or prices. Results should be ordered by price
         public List<Product> SearchByPrice(double minPrice, double maxPrice)
         {
-            throw new NotImplementedException();
+            IEnumerable<Product> sortedByPrice = _products.Where(product => product.Price > minPrice && product.Price < maxPrice);
+            return sortedByPrice.ToList();
         }
 
         // Return a product with a given ID. Return null if not found.
         public Product GetById(int id)
         {
-            throw new NotImplementedException();
+            return _products.Find(product => product.Id == id);
         }
 
         // Return the cheapest product or null if there are no products
@@ -67,7 +70,9 @@ namespace Vending
         // Return all the product names in alphabetical ordere
         public List<string> GetProductNames()
         {
-            throw new NotImplementedException();
+            IEnumerable<string> namedProducts = _products.Select(product => product.Name).OrderBy(p => p);
+            return namedProducts.ToList();
+
         }
 
         // Property to represent the total of all the products' prices.
